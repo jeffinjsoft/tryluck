@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -21,14 +22,14 @@ class Search(models.Model):
 
 class Luck(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50,unique=True)
     content = models.CharField(max_length=5000)
     head=models.CharField(max_length=50)
     tails=models.CharField(max_length=50)
     search = models.ForeignKey(Search)
 
     user = models.ForeignKey(User)
-    status=models.CharField(max_length=50)
+    status=models.CharField(max_length=50,default='open')
 
 
     created_at = models.DateTimeField(auto_now_add=True)
