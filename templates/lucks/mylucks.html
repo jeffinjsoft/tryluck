@@ -1,0 +1,32 @@
+{% extends "dashboard/base.html" %}
+{% block title %}MyLucks{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                          <th>#</th>
+                                          <th>Name</th>
+                                          <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      {% for l in lucks reversed %}
+                                      <tr>
+                                        <td>{{l.id}}</td>
+                                        <td>{{l.name}}</td>
+                                        <td>Delete</td>
+
+                                      </tr>
+                                      {% endfor %}
+
+                                    </tbody>
+                                </table>
+    </div>
+</div>
+
+
+{% endblock %}
