@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout,{'template_name': 'home.html'}, name='logout'),
     url(r'^dashboard/', include('dashboard.urls')),
     url(r'^lucks/', include('lucks.urls')),
+    url(r'^wallet/', include('wallet.urls')),
     url(r'^admin/', admin.site.urls),
 ]
