@@ -13,6 +13,14 @@
     <!-- Bootstrap core CSS -->
     {% load static %}
     <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <script src="{% static "js/jquery.min.js" %}"></script>
+
+    <!-- date picker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <!-- date picker -->
+
 
 
     <script>
@@ -40,25 +48,28 @@ window.setTimeout(function() {
 
 
 
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right" style="padding-right:1%">
 
               <li class="dropdown">
-                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% if user.is_authenticated %}Logout{%else%}Login{%endif%}<strong class="caret"></strong></a>
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account<strong class="caret"></strong></a>
                 <ul class="dropdown-menu">
-                  {% if user.is_authenticated %}
                   <li>
-                    <a href="{% url 'logout' %}">Logout</a>
+                    <a href="/lucks/my/">MyLucks</a>
                   </li>
-                  {%else%}
-                  <li>
-                    <a href="{% url 'login' %}">Login</a>
-                  </li>
-                  {%endif%}
+
 
                   <li class="divider">
                   </li>
                   <li>
-                    <a href="/contactus">Contact Us</a>
+                    {% if user.is_authenticated %}
+                    <li>
+                      <a href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    {%else%}
+                    <li>
+                      <a href="{% url 'login' %}">Login</a>
+                    </li>
+                    {%endif%}
                   </li>
                 </ul>
               </li>
@@ -96,8 +107,10 @@ window.setTimeout(function() {
 
       </div>
       {% endif %}
+      <hr>
                 {% block content %}
                 {% endblock %}
+                <hr>
               </div>
             </div>
         </div>
@@ -105,7 +118,7 @@ window.setTimeout(function() {
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="{% static "js/jquery.min.js" %}"></script>
+
         <script src="{% static "js/bootstrap.min.js" %}"></script>
 
       </body>

@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="row">
-  <div class="panel panel-warning">
+  <div class="panel panel-danger">
                           <div class="panel-heading">
                               <h2>Add your own lucks</h2>
                           </div>
@@ -31,6 +31,39 @@
 
     {% endfor %}
   </select>
+
+  </div>
+
+  <div class="form-group form-inline">
+    <div class="row">
+        <div class='col-md-6'>
+            <div class="form-group">
+              <label for="sel1">Duration:</label>
+                <div class='input-group date' id='datetimepicker2'>
+
+                    <input type='text' class="form-control"  name="duration"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker2').datetimepicker({
+
+                });
+            });
+        </script>
+
+        <div class='col-md-6'>
+            <div class="form-group">
+              <label for="sel1">MinAmount:</label>
+              <input type="text" class="form-control" id="amount" name="amount" required>
+
+            </div>
+        </div>
+    </div>
 
   </div>
 

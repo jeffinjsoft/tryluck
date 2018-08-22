@@ -11,7 +11,9 @@
                                           <th>#</th>
                                           <th>Name</th>
                                           <th>Status</th>
+                                          <th>Duration</th>
                                           <th>Actions</th>
+
 
                                         </tr>
                                     </thead>
@@ -21,7 +23,11 @@
                                         <td>{{l.id}}</td>
                                         <td>{{l.name}}</td>
                                         <td>{{l.status}}</td>
-                                        <td><a href="/lucks/view/{{l.id}}" class="button btn btn-info">View</a></td>
+                                        <td>{{l.duration}}</td>
+                                        <td>
+                                          <a href="/lucks/view/{{l.id}}" class="button btn btn-info">View</a>
+                                          <a href="/lucks/del/{{l.id}}" class="button btn btn-danger">Delete</a>
+                                        </td>
 
                                       </tr>
                                       {% endfor %}

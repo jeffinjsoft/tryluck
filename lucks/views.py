@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.db import IntegrityError
 
+from dateutil import parser
+
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -35,8 +37,18 @@ def addnewlucks(request):
 def lucks_view(request,l_id):
 
     l = models.Luck.objects.get(pk=l_id)
-    print l.status
     return render(request, "lucks/view.html", {'luck':l})
+
+@login_required(login_url='/login/')
+def lucks_del(request,l_id):
+    l = models.Luck.objects.get(pk=l_id)
+    if l.user == request.user:
+        try:
+            l.delete()
+            messages.success(request, 'Successfully deleted')
+        except:
+            messages.warning(request, 'Unable to delete')
+    return HttpResponseRedirect("/lucks/my/")
 
 @login_required(login_url='/login/')
 def lucks_add_new(request):
@@ -44,18 +56,32 @@ def lucks_add_new(request):
 
         s = models.Search.objects.get(name=request.POST['searchvalue'])
 
+        # pre checks
+        try:
+            amt = int(request.POST['amount'])
+        except:
+            messages.warning(request, 'amount is not interger')
+            return HttpResponseRedirect("/lucks/addnew")
+
+
+
+
         try:
             l = models.Luck()
             l.name = request.POST['name']
             l.content = request.POST['content']
-            l.heads = request.POST['heads']
+            l.head = request.POST['heads']
             l.tails = request.POST['tails']
             l.search = s
             l.user = request.user
+            duration = parser.parse(request.POST.get('duration'))
+            l.duration = duration
+            l.amount = amt
             l.save()
             messages.success(request, 'Successfully added the luck..')
         except IntegrityError as e:
-            messages.warning(request, 'Please use another names')
+            messages.danger(request, 'Please use another names')
+            print e
             return HttpResponseRedirect("/lucks/addnew")
         except Exception as e:
             print e

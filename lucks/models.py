@@ -20,6 +20,9 @@ class Search(models.Model):
     def __unicode__(self):
        return self.name
 
+
+
+
 class Luck(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50,unique=True)
@@ -27,7 +30,8 @@ class Luck(models.Model):
     head=models.CharField(max_length=50)
     tails=models.CharField(max_length=50)
     search = models.ForeignKey(Search)
-
+    duration = models.DateTimeField()
+    amount = models.IntegerField(default=0)
     user = models.ForeignKey(User)
     status=models.CharField(max_length=50,default='open')
 
@@ -38,16 +42,14 @@ class Luck(models.Model):
     def __unicode__(self):
        return self.name
 
-
-
 class Like(models.Model):
-    id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User)
-    luck = models.ForeignKey(Luck)
+   id = models.AutoField(primary_key=True)
+   user = models.ForeignKey(User)
+   value = models.BooleanField()
+   luck = models.ForeignKey(Luck)
 
+   created_at = models.DateTimeField(auto_now_add=True)
+   updated_at = models.DateTimeField(auto_now=True)
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-       return self.luck.name
+   def __unicode__(self):
+      return self.luck.name
