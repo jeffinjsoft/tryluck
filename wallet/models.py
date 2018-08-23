@@ -12,7 +12,7 @@ class Card(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(blank=True,max_length=50)
     number = models.CharField(blank=True,max_length=50)
-    adress = models.CharField(blank=True,max_length=50)
+    address = models.CharField(blank=True,max_length=50)
     ex_month = models.CharField(blank=True,max_length=50)
     ex_year = models.CharField(blank=True,max_length=50)
     cvv = models.CharField(blank=True,max_length=5)
@@ -25,14 +25,14 @@ class Card(models.Model):
 
 
     def __unicode__(self):
-       return self.number
+       return self.name
 
 
 
 
 class Walet(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User,unique=True)
     balance = models.IntegerField(default=0)
     total = models.IntegerField(default=0)
     due = models.IntegerField(default=0)
@@ -42,4 +42,4 @@ class Walet(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-       return self.name
+       return str(self.balance)

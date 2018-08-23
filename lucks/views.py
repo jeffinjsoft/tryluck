@@ -4,9 +4,12 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+
 from django.db import IntegrityError
 
 from dateutil import parser
+import json
 
 from django.contrib.auth.decorators import login_required
 
@@ -37,7 +40,8 @@ def addnewlucks(request):
 def lucks_view(request,l_id):
 
     l = models.Luck.objects.get(pk=l_id)
-    return render(request, "lucks/view.html", {'luck':l})
+    comments = models.Comment.objects.filter(luck=l).order_by('-id')[:5]
+    return render(request, "lucks/view.html", {'luck':l,'comments':comments})
 
 @login_required(login_url='/login/')
 def lucks_del(request,l_id):
@@ -64,8 +68,6 @@ def lucks_add_new(request):
             return HttpResponseRedirect("/lucks/addnew")
 
 
-
-
         try:
             l = models.Luck()
             l.name = request.POST['name']
@@ -80,7 +82,7 @@ def lucks_add_new(request):
             l.save()
             messages.success(request, 'Successfully added the luck..')
         except IntegrityError as e:
-            messages.danger(request, 'Please use another names')
+            messages.warning(request, 'Please use another names')
             print e
             return HttpResponseRedirect("/lucks/addnew")
         except Exception as e:
@@ -88,3 +90,42 @@ def lucks_add_new(request):
             messages.warning(request, 'Error in adding')
 
         return HttpResponseRedirect("/lucks/my")
+
+
+
+@login_required(login_url='/login/')
+def addcomment(request):
+    if request.method == "POST":
+        comment = request.POST.get('the_comment')
+        print request.POST.keys()
+        print comment
+        response_data = {}
+        try:
+            l = models.Luck(pk=request.POST['luck'])
+            c = models.Comment(comment=comment, user=request.user,luck=l)
+            c.save()
+            print request.user.username
+            response_data['result'] = 'success!'
+            response_data['html'] = """
+                <strong class="pull-left primary-font">"""+request.user.username+"""</strong>
+        <small class="pull-right text-muted">
+           <span class="glyphicon glyphicon-time"></span>...</small>
+        </br>
+        <li class="ui-state-default">"""+comment+""". </li>
+        </br>
+
+            """
+        except:
+            print 'error!!!!!!!!!!!'
+            response_data['result'] = 'cant create comment!'
+
+
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )

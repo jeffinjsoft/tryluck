@@ -45,11 +45,26 @@ class Luck(models.Model):
 class Like(models.Model):
    id = models.AutoField(primary_key=True)
    user = models.ForeignKey(User)
-   value = models.BooleanField()
    luck = models.ForeignKey(Luck)
+   option = models.CharField(max_length=10)
 
    created_at = models.DateTimeField(auto_now_add=True)
    updated_at = models.DateTimeField(auto_now=True)
 
    def __unicode__(self):
       return self.luck.name
+
+
+class Comment(models.Model):
+    id = models.AutoField(primary_key=True)
+    comment = models.CharField(max_length=5000)
+    user = models.ForeignKey(User)
+    status=models.CharField(max_length=50,default='active')
+    luck = models.ForeignKey(Luck)
+
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+       return self.status

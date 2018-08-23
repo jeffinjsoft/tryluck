@@ -10,3 +10,4 @@ from . import models
 admin.site.register(models.Luck)
 admin.site.register(models.Like)
 admin.site.register(models.Search)
+admin.site.register(models.Comment)

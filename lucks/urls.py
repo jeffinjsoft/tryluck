@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'add/$', views.lucks_add_new,name='addnewlucks'),
     url(r'view/(?P<l_id>[0-9]+)/$', views.lucks_view),
     url(r'del/(?P<l_id>[0-9]+)/$', views.lucks_del),
+    url(r'addcomment/$', views.addcomment),
 ]

@@ -6,6 +6,6 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index,name='wallet'),
-    # url(r'my/$', views.mylucks,name='mylucks'),
+    url(r'add/$', views.add,name='addwallet'),
 
 ]

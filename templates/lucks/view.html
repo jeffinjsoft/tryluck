@@ -60,64 +60,103 @@
             </div>
           </div>
 			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+
+
+	function addcomment() {
+	    console.log($('#comment-text').val()) // sanity check
+	    $.ajax({
+	        url : "/lucks/addcomment/", // the endpoint
+	        type : "POST", // http method
+	        data : {
+						the_comment : $('#comment-text').val(),
+						luck : {{luck.id}},
+						csrfmiddlewaretoken: '{{ csrf_token }}',
+
+					}, // data sent with the post request
+
+	        // handle a successful response
+	        success : function(json) {
+	            $('#comment-text').val(''); // remove the value from the input
+	            console.log(json); // log the returned json to the console
+							$("#comments").prepend(json.html);
+	            console.log("success"); // another sanity check
+	        },
+
+	        // handle a non-successful response
+	        error : function(xhr,errmsg,err) {
+	            $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+	                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+	            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+	        }
+	    });
+	};
+
+	</script>
+
+
+	<div class="row">
+		<div class="col-md-12">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
+					<div class="well">
+        <h4>Add your comments here</h4>
+    <div class="input-group">
+        <input type="text" id="comment-text" class="form-control input-sm chat-input" placeholder="Write your message here..." name="comment" required/>
+	    <span class="input-group-btn">
+            <button onclick="addcomment()" id = "addbutton" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-comment"></span> Add Comment</button>
+        </span>
+    </div>
+    <hr data-brackets-id="comments">
+
+    <ul data-brackets-id="comments" id="comments" class="list-unstyled ui-sortable">
+			{% for c in comments %}
+        <strong class="pull-left primary-font">{{c.user}}</strong>
+        <small class="pull-right text-muted">
+           <span class="glyphicon glyphicon-time"></span>...</small>
+        </br>
+
+        <li class="ui-state-default">{{c.comment}}</li>
+        </br>
+				{% endfor %}
+    </ul>
+
+    </div>
+
+
+				</div>
+				<div class="col-md-6">
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<div class="list-group">
-								 <a href="#" class="list-group-item list-group-item-action active">Likes</a>
-								<div class="list-group-item">
-									List header
-								</div>
+								<a href="/lucks" class="list-group-item list-group-item-action active justify-content-between">Head <span class="badge badge-light badge-pill">{{luckcount}}</span></a>
+
 								<div class="list-group-item">
 									<h4 class="list-group-item-heading">
-										List group item heading
+
 									</h4>
-									<p class="list-group-item-text">
-										...
-									</p>
+
 								</div>
 
 							</div>
 						</div>
-						<div class="col-md-4">
+            <div class="col-md-6">
 							<div class="list-group">
-								 <a href="#" class="list-group-item list-group-item-action active">Home</a>
-								<div class="list-group-item">
-									List header
-								</div>
+								<a href="/lucks/my" class="list-group-item list-group-item-action active justify-content-between">Tail <span class="badge badge-light badge-pill">{{mycount}}</span></a>
+
 								<div class="list-group-item">
 									<h4 class="list-group-item-heading">
-										List group item heading
+
 									</h4>
-									<p class="list-group-item-text">
-										...
-									</p>
+
 								</div>
-								<div class="list-group-item justify-content-between">
-									Help <span class="badge badge-secondary badge-pill">14</span>
-								</div> <a href="#" class="list-group-item list-group-item-action active justify-content-between">Home <span class="badge badge-light badge-pill">14</span></a>
+
 							</div>
 						</div>
-						<div class="col-md-4">
-							<div class="list-group">
-								 <a href="#" class="list-group-item list-group-item-action active">Home</a>
-								<div class="list-group-item">
-									List header
-								</div>
-								<div class="list-group-item">
-									<h4 class="list-group-item-heading">
-										List group item heading
-									</h4>
-									<p class="list-group-item-text">
-										...
-									</p>
-								</div>
-								<div class="list-group-item justify-content-between">
-									Help <span class="badge badge-secondary badge-pill">14</span>
-								</div> <a href="#" class="list-group-item list-group-item-action active justify-content-between">Home <span class="badge badge-light badge-pill">14</span></a>
-							</div>
-						</div>
+
 					</div>
 				</div>
 			</div>
