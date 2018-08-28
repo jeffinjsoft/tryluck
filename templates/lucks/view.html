@@ -13,7 +13,7 @@
 					{{luck.content}}
 				</p>
 				<p>
-					<button type="button"   class="btn btn-primary btn-large" data-toggle="modal" data-target="#myModal">options</button>
+					<button type="button"   class="btn btn-primary btn-large" data-toggle="modal" data-target="#myModal">INTERST</button>
 				</p>
                     <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog">
@@ -26,11 +26,11 @@
                     <h1 class="modal-title">Amount:-{{luck.amount}}</h1>
                   </div>
                   <div class="modal-body">
-
+										<div class="row">
                     <div class="col-md-12">
                       <div class="col-md-6">
           							<div class="list-group">
-          								 <a href="#" class="list-group-item list-group-item-action active">Heads</a>
+          								 <a href="#" class="list-group-item list-group-item-action active">Heads<span class="badge badge-light badge-pill">{{h_count}}</span></a>
           								<div class="list-group-item">
           									{{luck.head}}
           								</div>
@@ -40,7 +40,7 @@
           						</div>
                       <div class="col-md-6">
           							<div class="list-group">
-          								 <a href="#" class="list-group-item list-group-item-action active">Tails</a>
+          								 <a href="#" class="list-group-item list-group-item-action active">Tails<span class="badge badge-light badge-pill">{{t_count}}</a>
           								<div class="list-group-item">
           									{{luck.tails}}
           								</div>
@@ -50,8 +50,10 @@
           						</div>
 
                     </div>
+									</div>
                   </div>
                   <div class="modal-footer">
+										<p style="color:red">Count shown is only for your votes</p>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                   </div>
                 </div>
@@ -88,8 +90,7 @@
 
 	        // handle a non-successful response
 	        error : function(xhr,errmsg,err) {
-	            $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-	                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+
 	            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
 	        }
 	    });
@@ -131,10 +132,13 @@
 				<div class="col-md-6">
 					<div class="well">
 
+
 					<div class="row">
+						<h1>TRY YOUR OPTION</h1>
 						<div class="col-md-6">
 							<div class="list-group">
-								<a href="/lucks/like/{{luck.id}}/?v=head" class="list-group-item list-group-item-action active justify-content-between">Head <span class="badge badge-light badge-pill">{{luckcount}}</span></a>
+
+								<a href="/lucks/like/{{luck.id}}/?v=head" onclick="return confirm('Are you sure?');" class="list-group-item list-group-item-action active justify-content-between list-group-item-warning">Head <span class="badge badge-light badge-pill">{{luckcount}}</span></a>
 
 								<div class="list-group-item">
 									<h4 class="list-group-item-heading">
@@ -148,7 +152,7 @@
 						</div>
             <div class="col-md-6">
 							<div class="list-group">
-								<a href="/lucks/like/{{luck.id}}/?vote=tail" class="list-group-item list-group-item-action active justify-content-between">Tail <span class="badge badge-light badge-pill">{{mycount}}</span></a>
+								<a href="/lucks/like/{{luck.id}}/?v=tail" onclick="return confirm('Are you sure?');" class="list-group-item list-group-item-action active justify-content-between list-group-item-warning">Tail <span class="badge badge-light badge-pill">{{mycount}}</span></a>
 
 								<div class="list-group-item">
 									<h4 class="list-group-item-heading">
@@ -172,9 +176,6 @@
 	</div>
 
 </div>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 
 
 {% endblock %}
