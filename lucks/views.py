@@ -13,6 +13,8 @@ import json
 
 from django.contrib.auth.decorators import login_required
 
+from wallet.models import Walet
+
 # Create your views here.
 
 from . import models
@@ -108,12 +110,11 @@ def addcomment(request):
             response_data['result'] = 'success!'
             response_data['html'] = """
                 <strong class="pull-left primary-font">"""+request.user.username+"""</strong>
-        <small class="pull-right text-muted">
-           <span class="glyphicon glyphicon-time"></span>...</small>
-        </br>
-        <li class="ui-state-default">"""+comment+""". </li>
-        </br>
-
+                    <small class="pull-right text-muted">
+                       <span class="glyphicon glyphicon-time"></span>...</small>
+                    </br>
+                    <li class="ui-state-default">"""+comment+""". </li>
+                    </br>
             """
         except:
             print 'error!!!!!!!!!!!'
@@ -129,3 +130,26 @@ def addcomment(request):
             json.dumps({"nothing to see": "this isn't happening"}),
             content_type="application/json"
         )
+
+
+
+
+@login_required(login_url='/login/')
+def like(request,l_id):
+    if request.user and request.method == "GET":
+        l = models.Luck.objects.get(id=l_id)
+        w = Walet.objects.get(user=request.user)
+        if l.amount < w.balance:
+            w.balance -= l.amount
+            w.save()
+            
+            messages.success(request, "Successfully chosed")
+            return HttpResponseRedirect("/wallet/")
+
+        else:
+            messages.warning(request, "You don't have enough balance. Please add balance")
+            return HttpResponseRedirect("/wallet/")
+
+
+    else:
+        return HttpResponseRedirect("/lucks/view/"+l_id+"/")

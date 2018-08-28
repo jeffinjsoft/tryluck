@@ -134,7 +134,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="list-group">
-								<a href="/lucks" class="list-group-item list-group-item-action active justify-content-between">Head <span class="badge badge-light badge-pill">{{luckcount}}</span></a>
+								<a href="/lucks/like/{{luck.id}}/?v=head" class="list-group-item list-group-item-action active justify-content-between">Head <span class="badge badge-light badge-pill">{{luckcount}}</span></a>
 
 								<div class="list-group-item">
 									<h4 class="list-group-item-heading">
@@ -148,7 +148,7 @@
 						</div>
             <div class="col-md-6">
 							<div class="list-group">
-								<a href="/lucks/my" class="list-group-item list-group-item-action active justify-content-between">Tail <span class="badge badge-light badge-pill">{{mycount}}</span></a>
+								<a href="/lucks/like/{{luck.id}}/?vote=tail" class="list-group-item list-group-item-action active justify-content-between">Tail <span class="badge badge-light badge-pill">{{mycount}}</span></a>
 
 								<div class="list-group-item">
 									<h4 class="list-group-item-heading">
@@ -172,6 +172,9 @@
 	</div>
 
 </div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 
 
 {% endblock %}
