@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from django.db import IntegrityError
 
 from dateutil import parser
+import datetime
 import json
 
 from django.contrib.auth.decorators import login_required
@@ -46,7 +47,14 @@ def lucks_view(request,l_id):
     h_count = models.Like.objects.filter(luck=l,user=request.user,option='head').count()
     t_count = models.Like.objects.filter(luck=l,user=request.user,option='tail').count()
 
-    return render(request, "lucks/view.html", {'luck':l,'comments':comments,'h_count':h_count,'t_count':t_count})
+    d = int((l.duration.replace(tzinfo=None) - datetime.datetime.now()).total_seconds())
+    print d
+    if d > 0:
+        count_down = d
+    else:
+        count_down = 0
+
+    return render(request, "lucks/view.html", {'luck':l,'comments':comments,'h_count':h_count,'t_count':t_count,'countdown':count_down})
 
 @login_required(login_url='/login/')
 def lucks_del(request,l_id):
